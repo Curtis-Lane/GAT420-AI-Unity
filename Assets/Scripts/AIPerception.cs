@@ -10,9 +10,9 @@ public abstract class AIPerception : MonoBehaviour {
 	[SerializeField]
 	protected float maxAngle = 45.0f;
 
-	public string TagName { get { return tagName; } }
-	public float Distance { get { return distance; } }
-	public float MaxAngle { get { return maxAngle; } }
+	public string TagName {get{return tagName;}}
+	public float Distance {get{return distance;}}
+	public float MaxAngle {get{return maxAngle;}}
 
 	public abstract GameObject[] GetGameObjects();
 }
