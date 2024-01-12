@@ -7,31 +7,35 @@ public class AIAutonomousAgent : AIAgent {
 	public AIPerception fleePerception = null;
 	public AIPerception flockPerception = null;
 
+	public float seekStrength = 1.0f;
+	public float fleeStrength = 1.0f;
+	public float flockStrength = 1.0f;
+
 	void Update() {
 		// Seek
 		if(seekPerception != null) {
 			var gameObjects = seekPerception.GetGameObjects();
 			if(gameObjects.Length > 0) {
-				movement.ApplyForce(Seek(gameObjects[0]));
+				movement.ApplyForce(Seek(gameObjects[0]) * seekStrength);
 			}
 		}
 		// Flee
 		if(fleePerception != null) {
 			var gameObjects = fleePerception.GetGameObjects();
 			if(gameObjects.Length > 0) {
-				movement.ApplyForce(Flee(gameObjects[0]));
+				movement.ApplyForce(Flee(gameObjects[0]) * fleeStrength);
 			}
 		}
 		// Flock
 		if(flockPerception != null) {
 			var gameObjects = flockPerception.GetGameObjects();
 			if(gameObjects.Length > 0) {
-				movement.ApplyForce(Cohesion(gameObjects));
-				movement.ApplyForce(Seperation(gameObjects, 3.0f));
-				movement.ApplyForce(Aligment(gameObjects));
+				movement.ApplyForce(Cohesion(gameObjects) * flockStrength);
+				movement.ApplyForce(Seperation(gameObjects, 3.0f) * flockStrength);
+				movement.ApplyForce(Aligment(gameObjects) * flockStrength);
 			}
 		}
-		transform.position = Utilities.Wrap(transform.position, -10, 10);
+		transform.position = Utilities.Wrap(transform.position, new Vector3(-10, -5, -10), new Vector3(10, 5, 10));
 	}
 
 	private Vector3 Seek(GameObject target) {
