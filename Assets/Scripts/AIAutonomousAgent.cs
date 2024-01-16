@@ -3,13 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class AIAutonomousAgent : AIAgent {
-	public AIPerception seekPerception = null;
-	public AIPerception fleePerception = null;
-	public AIPerception flockPerception = null;
+	[SerializeField] AIPerception seekPerception = null;
+	[SerializeField] AIPerception fleePerception = null;
+	[SerializeField] AIPerception flockPerception = null;
+	[SerializeField] AIPerception obstaclePerception = null;
 
-	public float seekStrength = 1.0f;
-	public float fleeStrength = 1.0f;
-	public float flockStrength = 1.0f;
+    [SerializeField] float seekStrength = 1.0f;
+	[SerializeField] float fleeStrength = 1.0f;
+	[SerializeField] float flockStrength = 1.0f;
+	[SerializeField] float obstacleStrength = 5.0f;
 
 	void Update() {
 		// Seek
@@ -19,6 +21,7 @@ public class AIAutonomousAgent : AIAgent {
 				movement.ApplyForce(Seek(gameObjects[0]) * seekStrength);
 			}
 		}
+
 		// Flee
 		if(fleePerception != null) {
 			var gameObjects = fleePerception.GetGameObjects();
@@ -26,6 +29,7 @@ public class AIAutonomousAgent : AIAgent {
 				movement.ApplyForce(Flee(gameObjects[0]) * fleeStrength);
 			}
 		}
+
 		// Flock
 		if(flockPerception != null) {
 			var gameObjects = flockPerception.GetGameObjects();
@@ -35,7 +39,22 @@ public class AIAutonomousAgent : AIAgent {
 				movement.ApplyForce(Aligment(gameObjects) * flockStrength);
 			}
 		}
-		transform.position = Utilities.Wrap(transform.position, new Vector3(-10, -5, -10), new Vector3(10, 5, 10));
+
+		// Obstacle avoidance
+		if(obstaclePerception != null) {
+			if(((AIRaycastPerception) obstaclePerception).CheckDirection(Vector3.forward)) {
+				Vector3 open = Vector3.zero;
+				if(((AIRaycastPerception) obstaclePerception).GetOpenDirection(ref open)) {
+					movement.ApplyForce(GetSteeringForce(open) * obstacleStrength);
+				}
+			}
+		}
+
+		Vector3 acceleration = movement.Acceleration;
+		acceleration.y = 0;
+		movement.Acceleration = acceleration;
+
+		transform.position = Utilities.Wrap(transform.position, -10, 10);
 	}
 
 	private Vector3 Seek(GameObject target) {

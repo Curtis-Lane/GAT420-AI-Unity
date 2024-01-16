@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class Utilities {
 	public static float Wrap(float value, float min, float max) {
-
 		if(value > max) {
 			return min;
 		} else if(value < min) {
@@ -28,5 +27,26 @@ public class Utilities {
 		value.z = Wrap(value.z, min, max);
 
 		return value;
+	}
+
+	public static Vector3[] GetDirectionsInCircle(int num, float angle) {
+		List<Vector3> result = new List<Vector3>();
+
+		// If odd number, set first direction as forward (0, 0, 1)
+		if(num % 2 == 1) {
+			result.Add(Vector3.forward);
+		}
+
+		// Compute the angle between rays
+		float angleOffset = (angle * 2) / num;
+
+		// Add the +/- directions around the circle
+		for(int i = 1; i <= num / 2; i++) {
+			float modifier = (i == 1 && num % 2 == 0) ? 0.65f : 1;
+			result.Add(Quaternion.AngleAxis(+angleOffset * i * modifier, Vector3.up) * Vector3.forward);
+			result.Add(Quaternion.AngleAxis(-angleOffset * i * modifier, Vector3.up) * Vector3.forward);
+		}
+
+		return result.ToArray();
 	}
 }
