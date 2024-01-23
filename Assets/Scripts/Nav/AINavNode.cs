@@ -5,53 +5,56 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class AINavNode : MonoBehaviour {
-    [SerializeField]
-    public List<AINavNode> neighbors = new List<AINavNode>();
+	[SerializeField]
+	public List<AINavNode> neighbors = new List<AINavNode>();
 
-    public AINavNode GetRandomNeighbor() {
-        return (neighbors.Count > 0) ? neighbors[Random.Range(0, neighbors.Count)] : null;
-    }
+	public float Cost {get; set;} = float.PositiveInfinity;
+	public AINavNode Parent {get; set;} = null;
 
-    private void OnTriggerEnter(Collider other) {
-        if(other.gameObject.TryGetComponent<AINavPath>(out AINavPath navPath)) {
-            if(navPath.targetNode == this) {
-                navPath.targetNode = GetRandomNeighbor();
-            }
-        }
-    }
+	public AINavNode GetRandomNeighbor() {
+		return (neighbors.Count > 0) ? neighbors[Random.Range(0, neighbors.Count)] : null;
+	}
 
-    private void OnTriggerStay(Collider other) {
-        if(other.gameObject.TryGetComponent<AINavPath>(out AINavPath navPath)) {
-            if(navPath.targetNode == this) {
-                navPath.targetNode = GetRandomNeighbor();
-            }
-        }
-    }
+	private void OnTriggerEnter(Collider other) {
+		if(other.gameObject.TryGetComponent<AINavPath>(out AINavPath navPath)) {
+			if(navPath.targetNode == this) {
+				navPath.targetNode = GetRandomNeighbor();
+			}
+		}
+	}
 
-    #region HELPER_FUNCTIONS
+	private void OnTriggerStay(Collider other) {
+		if(other.gameObject.TryGetComponent<AINavPath>(out AINavPath navPath)) {
+			if(navPath.targetNode == this) {
+				navPath.targetNode = GetRandomNeighbor();
+			}
+		}
+	}
 
-    public static AINavNode[] GetAINavNodes() {
-        return FindObjectsOfType<AINavNode>();
-    }
+	#region HELPER_FUNCTIONS
 
-    public static AINavNode[] GetAINavNodesWithTag(string tag) {
-        var allNodes = GetAINavNodes();
+	public static AINavNode[] GetAINavNodes() {
+		return FindObjectsOfType<AINavNode>();
+	}
 
-        // add nodes with tag to nodes
-        List<AINavNode> nodes = new List<AINavNode>();
-        foreach(var node in allNodes) {
-            if(node.CompareTag(tag)) {
-                nodes.Add(node);
-            }
-        }
+	public static AINavNode[] GetAINavNodesWithTag(string tag) {
+		var allNodes = GetAINavNodes();
 
-        return nodes.ToArray();
-    }
+		// add nodes with tag to nodes
+		List<AINavNode> nodes = new List<AINavNode>();
+		foreach(var node in allNodes) {
+			if(node.CompareTag(tag)) {
+				nodes.Add(node);
+			}
+		}
 
-    public static AINavNode GetRandomAINavNode() {
-        var nodes = GetAINavNodes();
-        return (nodes == null) ? null : nodes[Random.Range(0, nodes.Length)];
-    }
+		return nodes.ToArray();
+	}
 
-    #endregion
+	public static AINavNode GetRandomAINavNode() {
+		var nodes = GetAINavNodes();
+		return (nodes == null) ? null : nodes[Random.Range(0, nodes.Length)];
+	}
+
+	#endregion
 }
