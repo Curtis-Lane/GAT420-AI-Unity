@@ -1107,9 +1107,17 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 887072584493794347, guid: aa64da9283c9fb343a36e7a2930613c0, type: 3}
+      propertyPath: endNode
+      value: 
+      objectReference: {fileID: 744352552}
+    - target: {fileID: 887072584493794347, guid: aa64da9283c9fb343a36e7a2930613c0, type: 3}
+      propertyPath: pathType
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 887072584493794347, guid: aa64da9283c9fb343a36e7a2930613c0, type: 3}
       propertyPath: startNode
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 1750184782}
     - target: {fileID: 8620072951931818688, guid: aa64da9283c9fb343a36e7a2930613c0, type: 3}
       propertyPath: m_Name
       value: NavAgent01

@@ -18,7 +18,7 @@ public class AINavNode : MonoBehaviour {
 	private void OnTriggerEnter(Collider other) {
 		if(other.gameObject.TryGetComponent<AINavPath>(out AINavPath navPath)) {
 			if(navPath.targetNode == this) {
-				navPath.targetNode = GetRandomNeighbor();
+				navPath.targetNode = navPath.GetNextAINavNode(navPath.targetNode);
 			}
 		}
 	}
@@ -26,7 +26,7 @@ public class AINavNode : MonoBehaviour {
 	private void OnTriggerStay(Collider other) {
 		if(other.gameObject.TryGetComponent<AINavPath>(out AINavPath navPath)) {
 			if(navPath.targetNode == this) {
-				navPath.targetNode = GetRandomNeighbor();
+				navPath.targetNode = navPath.GetNextAINavNode(navPath.targetNode);
 			}
 		}
 	}
@@ -54,6 +54,15 @@ public class AINavNode : MonoBehaviour {
 	public static AINavNode GetRandomAINavNode() {
 		var nodes = GetAINavNodes();
 		return (nodes == null) ? null : nodes[Random.Range(0, nodes.Length)];
+	}
+
+	public static void ResetNodes() {
+		var nodes = GetAINavNodes();
+		foreach(var node in nodes) {
+			//node.Visited = false;
+			node.Parent = null;
+			node.Cost = float.MaxValue;
+		}
 	}
 
 	#endregion
