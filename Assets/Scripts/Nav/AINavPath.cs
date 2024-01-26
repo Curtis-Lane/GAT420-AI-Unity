@@ -5,83 +5,103 @@ using UnityEngine;
 
 [RequireComponent(typeof(AINavAgent))]
 public class AINavPath : MonoBehaviour {
-    public enum PathType {
-        Waypoint,
-        Dijkstra,
-        AStar
-    }
-
-    [SerializeField]
-    private PathType pathType;
-
-    [SerializeField]
-    private AINavNode startNode;
+	public enum PathType {
+		Waypoint,
+		Dijkstra,
+		AStar
+	}
 
 	[SerializeField]
-	private AINavNode endNode;
+	private AINavAgent agent;
 
-	AINavAgent agent;
+	[SerializeField]
+	private PathType pathType;
 
-    List<AINavNode> path = new List<AINavNode>();
+	List<AINavNode> path = new List<AINavNode>();
 
-    public AINavNode targetNode {get; set;} = null;
-    public Vector3 destination {
-        get {
-            return (targetNode != null) ? targetNode.transform.position : Vector3.zero;
-        } set {
-            if(pathType == PathType.Waypoint) {
-                targetNode = agent.GetNearestAINavNode(value);
-            } else if(pathType == PathType.Dijkstra || pathType == PathType.AStar) {
-                GeneratePath(startNode, endNode);
-            }
-        }
-    }
+	public AINavNode targetNode {get; set;} = null;
+	public Vector3 destination {
+		get {
+			return (targetNode != null) ? targetNode.transform.position : Vector3.zero;
+		} set {
+			if(pathType == PathType.Waypoint) {
+				targetNode = agent.GetNearestAINavNode(value);
+			} else if(pathType == PathType.Dijkstra || pathType == PathType.AStar) {
+				AINavNode startNode = agent.GetNearestAINavNode();
+				AINavNode endNode = agent.GetNearestAINavNode(value);
 
-    private void Start() {
-        agent = GetComponent<AINavAgent>();
-        targetNode = (startNode != null) ? startNode : AINavNode.GetRandomAINavNode();
-    }
+				GeneratePath(startNode, endNode);
+				targetNode = startNode;
+			}
+		}
+	}
 
-    public bool HasTarget() {
-        return targetNode != null;
-    }
+	private void Start() {
+		//agent = GetComponent<AINavAgent>();
+		//targetNode = (startNode != null) ? startNode : AINavNode.GetRandomAINavNode();
+	}
 
-    public AINavNode GetNextAINavNode(AINavNode node) {
-        if(pathType == PathType.Waypoint) {
-            return node.GetRandomNeighbor();
-        } else if(pathType == PathType.Dijkstra || pathType == PathType.AStar) {
-            return GetNextPathAINavNode(node);
-        }
+	public bool HasTarget() {
+		return targetNode != null;
+	}
 
-        return null;
-    }
+	public AINavNode GetNextAINavNode(AINavNode node) {
+		if(pathType == PathType.Waypoint) {
+			return node.GetRandomNeighbor();
+		} else if(pathType == PathType.Dijkstra || pathType == PathType.AStar) {
+			return GetNextPathAINavNode(node);
+		}
 
-    private void GeneratePath(AINavNode startNode, AINavNode endNode) {
-        AINavNode.ResetNodes();
-        AINavDijkstra.Generate(startNode, endNode, ref path);
-    }
+		return null;
+	}
 
-    private AINavNode GetNextPathAINavNode(AINavNode node) {
-        if(path.Count == 0) {
-            return null;
-        }
+	private void GeneratePath(AINavNode startNode, AINavNode endNode) {
+		AINavNode.ResetNodes();
+		if(pathType == PathType.Dijkstra) {
+			AINavDijkstra.Generate(startNode, endNode, ref path);
+		} else if(pathType == PathType.AStar) {
+			AINavAStar.Generate(startNode, endNode, ref path);
+		}
+	}
 
-        int index = path.FindIndex(pathNode => pathNode == node);
+	private AINavNode GetNextPathAINavNode(AINavNode node) {
+		if(path.Count == 0) {
+			return null;
+		}
 
-        if(index == -1) {
-            return null;
-        }
+		int index = path.FindIndex(pathNode => pathNode == node);
 
-        if(index + 1 == path.Count) {
-            return null;
-        }
+		// If not found or past the end, return null
+		if(index == -1 || ((index + 1) == path.Count)) {
+			return null;
+		}
 
-        AINavNode nextNode = path[index + 1];
-        
-        return null;
-    }
+		// Get next node in path
+		AINavNode nextNode = path[index + 1];
+		
+		return nextNode;
+	}
 
-    /*
+	private void OnDrawGizmosSelected() {
+		if(path.Count == 0) {
+			return;
+		}
+
+		var pathArray = path.ToArray();
+
+		for(int i = 1; i < path.Count - 1; i++) {
+			Gizmos.color = Color.black;
+			Gizmos.DrawSphere(pathArray[i].transform.position + Vector3.up, 1);
+		}
+
+		Gizmos.color = Color.green;
+		Gizmos.DrawSphere(pathArray[0].transform.position + Vector3.up, 1);
+
+		Gizmos.color = Color.red;
+		Gizmos.DrawSphere(pathArray[pathArray.Length - 1].transform.position + Vector3.up, 1);
+	}
+
+	/*
 	public AINavNode GetNearestAINavNode()
 	{
 		var nodes = AINavNode.GetAINavNodes().ToList();

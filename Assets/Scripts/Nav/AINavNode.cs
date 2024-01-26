@@ -8,7 +8,7 @@ public class AINavNode : MonoBehaviour {
 	[SerializeField]
 	public List<AINavNode> neighbors = new List<AINavNode>();
 
-	public float Cost {get; set;} = float.PositiveInfinity;
+	public float Cost {get; set;} = float.MaxValue;
 	public AINavNode Parent {get; set;} = null;
 
 	public AINavNode GetRandomNeighbor() {
@@ -34,7 +34,18 @@ public class AINavNode : MonoBehaviour {
 	#region HELPER_FUNCTIONS
 
 	public static AINavNode[] GetAINavNodes() {
-		return FindObjectsOfType<AINavNode>();
+		List<AINavNode> nodes = new List<AINavNode>();
+
+		GameObject[] gos = FindObjectsOfType<GameObject>();
+
+		foreach(GameObject go in gos) {
+			if(go.TryGetComponent(out AINavNode node)) {
+				nodes.Add(node);
+			}
+		}
+
+		//return FindObjectsOfType<AINavNode>();
+		return nodes.ToArray();
 	}
 
 	public static AINavNode[] GetAINavNodesWithTag(string tag) {

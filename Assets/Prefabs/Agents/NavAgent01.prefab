@@ -94,6 +94,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   movement: {fileID: 7647505224332825319}
   path: {fileID: 887072584493794347}
+  startNode: {fileID: 0}
 --- !u!114 &7647505224332825319
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -122,7 +123,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8e85e002d0f18f643bf320bfbe48c9ee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startNode: {fileID: 0}
+  agent: {fileID: 471213392912414232}
+  pathType: 2
 --- !u!95 &159311136959444025
 Animator:
   serializedVersion: 5
