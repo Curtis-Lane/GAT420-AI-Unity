@@ -21,7 +21,7 @@ public class AINavAStar {
 			}
 
 			foreach(AINavNode neighbor in node.neighbors) {
-				float cost = /*neighbor.Cost*/ + Vector3.Distance(node.transform.position, neighbor.transform.position);
+				float cost = /*neighbor.Cost +*/ Vector3.Distance(node.transform.position, neighbor.transform.position);
 				if(cost < neighbor.Cost) {
 					neighbor.Cost = cost;
 					neighbor.Parent = node;

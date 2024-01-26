@@ -16,6 +16,10 @@ public class NavNodeEditor : MonoBehaviour {
 	private AINavNode navNode = null;
 	private AINavNode activeNavNode = null;
 
+	private void Awake() {
+		AINavNode.spawner = this.gameObject;
+	}
+
 	private void OnEnable() {
 		if(!Application.isEditor) {
 			Destroy(this);

@@ -5,6 +5,8 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class AINavNode : MonoBehaviour {
+	public static GameObject spawner;
+
 	[SerializeField]
 	public List<AINavNode> neighbors = new List<AINavNode>();
 
@@ -34,18 +36,20 @@ public class AINavNode : MonoBehaviour {
 	#region HELPER_FUNCTIONS
 
 	public static AINavNode[] GetAINavNodes() {
-		List<AINavNode> nodes = new List<AINavNode>();
+		//List<AINavNode> nodes = new List<AINavNode>();
 
-		GameObject[] gos = FindObjectsOfType<GameObject>();
+		//GameObject[] gos = FindObjectsOfType<GameObject>();
 
-		foreach(GameObject go in gos) {
-			if(go.TryGetComponent(out AINavNode node)) {
-				nodes.Add(node);
-			}
-		}
+		//foreach(GameObject go in gos) {
+		//	if(go.TryGetComponent(out AINavNode node)) {
+		//		nodes.Add(node);
+		//	}
+		//}
 
-		//return FindObjectsOfType<AINavNode>();
-		return nodes.ToArray();
+		////return FindObjectsOfType<AINavNode>();
+		//return nodes.ToArray();
+
+		return spawner.GetComponentsInChildren<AINavNode>();
 	}
 
 	public static AINavNode[] GetAINavNodesWithTag(string tag) {
