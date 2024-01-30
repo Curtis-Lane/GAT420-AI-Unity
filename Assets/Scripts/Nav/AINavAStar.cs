@@ -4,6 +4,8 @@ using UnityEngine;
 using Priority_Queue;
 
 public class AINavAStar {
+	private static int pathLimit = 50;
+
 	public static bool Generate(AINavNode startNode, AINavNode endNode, ref List<AINavNode> path) {
 		SimplePriorityQueue<AINavNode> nodes = new SimplePriorityQueue<AINavNode>();
 
@@ -34,15 +36,18 @@ public class AINavAStar {
 
 		path.Clear();
 		if(found) {
+			//Debug.Log("found");
 			CreatePathFromParents(endNode, ref path);
+			//Debug.Log(path);
 		}
 
 		return found;
 	}
 
 	public static void CreatePathFromParents(AINavNode node, ref List<AINavNode> path) {
+		int i = 0;
 		// while node not null
-		while(node != null) {
+		while(node != null && i++ < pathLimit) {
 			// add node to list path
 			path.Add(node);
 			// set node to node parent

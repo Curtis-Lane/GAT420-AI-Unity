@@ -10,6 +10,9 @@
 /[Ll]ogs/
 /[Uu]ser[Ss]ettings/
 
+# Anti-piracy (I.e. don't wanna get in trouble for downloading files from the neumont servers)
+Assets/Externals/Wild\ West\ Western
+
 # MemoryCaptures can get excessive in size.
 # They also could contain extremely sensitive data
 /[Mm]emoryCaptures/

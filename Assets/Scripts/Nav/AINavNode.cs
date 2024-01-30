@@ -46,8 +46,8 @@ public class AINavNode : MonoBehaviour {
 		//	}
 		//}
 
-		////return FindObjectsOfType<AINavNode>();
 		//return nodes.ToArray();
+		////return FindObjectsOfType<AINavNode>();
 
 		return spawner.GetComponentsInChildren<AINavNode>();
 	}
