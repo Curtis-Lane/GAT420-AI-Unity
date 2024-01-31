@@ -18,6 +18,10 @@ public class NavNodeEditor : MonoBehaviour {
 	private bool active = false;
 	private bool mousePressed = false;
 
+	private void Awake() {
+		AINavNode.spawner = this.gameObject;
+	}
+
 	private void OnEnable() {
 		if(!Application.isEditor) {
 			Destroy(this);
@@ -111,6 +115,9 @@ public class NavNodeEditor : MonoBehaviour {
 		// delete nav node
 		if(e.isKey && e.keyCode == KeyCode.Minus) {
 			if(navNode != null) {
+				foreach(AINavNode neighbor in navNode.neighbors) {
+					neighbor.neighbors.Remove(navNode);
+				}
 				DestroyImmediate(navNode.gameObject);
 			}
 			e.Use();
