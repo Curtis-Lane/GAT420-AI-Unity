@@ -6,6 +6,7 @@ public class AIStateAgent : AIAgent {
 	public Animator animator;
 
 	public AIPerception enemyPerception;
+	public AIPerception friendPerception;
 
 	public float health = 100.0f;
 
@@ -18,6 +19,9 @@ public class AIStateAgent : AIAgent {
 		stateMachine.AddState(nameof(AIPatrolState), new AIPatrolState(this));
 		stateMachine.AddState(nameof(AIAttackState), new AIAttackState(this));
 		stateMachine.AddState(nameof(AIChaseState), new AIChaseState(this));
+		stateMachine.AddState(nameof(AIFleeState), new AIFleeState(this));
+		stateMachine.AddState(nameof(AIDanceState), new AIDanceState(this));
+		stateMachine.AddState(nameof(AIWaveState), new AIWaveState(this));
 
 		stateMachine.SetState(nameof(AIIdleState));
 	}

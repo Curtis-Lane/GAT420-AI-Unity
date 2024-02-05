@@ -190,6 +190,9 @@ PrefabInstance:
       addedObject: {fileID: 3411928640248244595}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: fe4657c20cf926f43a41b86f91c4c451, type: 3}
       insertIndex: -1
+      addedObject: {fileID: -658118048550206127}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: fe4657c20cf926f43a41b86f91c4c451, type: 3}
+      insertIndex: -1
       addedObject: {fileID: 7698594671561343118}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: fe4657c20cf926f43a41b86f91c4c451, type: 3}
       insertIndex: -1
@@ -225,6 +228,7 @@ MonoBehaviour:
   movement: {fileID: 5334156628933969339}
   animator: {fileID: 51644633453435097}
   enemyPerception: {fileID: 3411928640248244595}
+  friendPerception: {fileID: -658118048550206127}
   health: 100
 --- !u!114 &5334156628933969339
 MonoBehaviour:
@@ -280,6 +284,26 @@ MonoBehaviour:
   tagName: Agent01
   distance: 5
   maxAngle: 115
+  layerMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  numRaycast: 10
+  radius: 0.5
+--- !u!114 &-658118048550206127
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6709385966601213977}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0d270160c5cafe042bb75b4c177b95cf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tagName: Agent02
+  distance: 3.5
+  maxAngle: 90
   layerMask:
     serializedVersion: 2
     m_Bits: 4294967295

@@ -21,7 +21,23 @@ public class AIIdleState : AIState {
 			agent.stateMachine.SetState(nameof(AIPatrolState));
 		}
 
+		if(Random.Range(0, 2500) == 0) {
+			agent.stateMachine.SetState(nameof(AIDanceState));
+		}
+
+		GameObject[] friends = agent.friendPerception.GetGameObjects();
+
+		if(friends.Length > 0 && (Random.Range(0, 1000) == 0)) {
+			agent.stateMachine.SetState(nameof(AIWaveState));
+		}
+
 		GameObject[] enemies = agent.enemyPerception.GetGameObjects();
+
+		if(enemies.Length > 3) {
+			// NIGERUNDAIYO, SMOKEY
+			agent.stateMachine.SetState(nameof(AIFleeState));
+			return;
+		}
 
 		if(enemies.Length > 0) {
 			agent.stateMachine.SetState(nameof(AIAttackState));
