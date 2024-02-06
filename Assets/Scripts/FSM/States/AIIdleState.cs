@@ -11,6 +11,10 @@ public class AIIdleState : AIState {
 
 	public override void OnEnter() {
 		Debug.Log("Idle Enter");
+
+		agent.movement.Stop();
+		agent.movement.Velocity = Vector3.zero;
+
 		timer = Time.time + Random.Range(1, 2);
 	}
 
@@ -40,7 +44,7 @@ public class AIIdleState : AIState {
 		}
 
 		if(enemies.Length > 0) {
-			agent.stateMachine.SetState(nameof(AIAttackState));
+			agent.stateMachine.SetState(nameof(AIChaseState));
 		}
 	}
 

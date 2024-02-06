@@ -13,6 +13,7 @@ public class AIAttackState : AIState {
 		Debug.Log("Attack Enter");
 
 		agent.movement.Stop();
+		agent.movement.Velocity = Vector3.zero;
 
 		agent.animator?.SetTrigger("Attack");
 
@@ -29,7 +30,5 @@ public class AIAttackState : AIState {
 
 	public override void OnExit() {
 		Debug.Log("Attack Exit");
-
-		agent.movement.Resume();
 	}
 }

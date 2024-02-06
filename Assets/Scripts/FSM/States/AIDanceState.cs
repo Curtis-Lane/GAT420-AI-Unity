@@ -10,6 +10,9 @@ public class AIDanceState : AIState {
 	}
 
 	public override void OnEnter() {
+		agent.movement.Stop();
+		agent.movement.Velocity = Vector3.zero;
+
 		timer = Time.time + Random.Range(10.0f, 12.5f);
 
 		agent.animator?.SetBool("Dance", true);

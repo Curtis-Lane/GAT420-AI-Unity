@@ -2,10 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AIWaveState : AIState {
+public class AIHitState : AIState {
 	private float timer = 0.0f;
 
-	public AIWaveState(AIStateAgent agent) : base(agent) {
+	public AIHitState(AIStateAgent agent) : base(agent) {
 		//
 	}
 
@@ -13,9 +13,9 @@ public class AIWaveState : AIState {
 		agent.movement.Stop();
 		agent.movement.Velocity = Vector3.zero;
 
-		timer = Time.time + 4.733f;
+		timer = Time.time + 1.2f;
 
-		agent.animator?.SetTrigger("Wave");
+		agent.animator?.SetTrigger("Hit");
 	}
 
 	public override void OnUpdate() {

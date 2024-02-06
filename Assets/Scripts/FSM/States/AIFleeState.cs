@@ -14,6 +14,8 @@ public class AIFleeState : AIState {
 	}
 
 	public override void OnEnter() {
+		agent.movement.Resume();
+
 		initalSpeed = agent.movement.maxSpeed;
 		agent.movement.maxSpeed *= 2.5f;
 
