@@ -15,7 +15,7 @@ public class AIDeathState : AIState {
 
 		agent.animator?.SetTrigger("Death");
 
-		timer = Time.time + 2;
+		timer = Time.time + 4.6f;
 	}
 
 	public override void OnUpdate() {

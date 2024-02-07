@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -9,6 +10,9 @@ public abstract class AIState {
 		this.agent = agent;
 	}
 
+	[NonSerialized]
+	public List<AIStateTransition> transitions = new List<AIStateTransition>();
+	
 	public string name {
 		get {
 			return GetType().Name;

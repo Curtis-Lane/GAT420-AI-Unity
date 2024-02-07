@@ -3,25 +3,23 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class AIWaveState : AIState {
-	private float timer = 0.0f;
-
 	public AIWaveState(AIStateAgent agent) : base(agent) {
-		//
+		AIStateTransition transition = new AIStateTransition(nameof(AIIdleState));
+		transition.AddCondition(new FloatCondition(agent.timer, Condition.Predicate.LESS, 0.0f));
+		transitions.Add(transition);
 	}
 
 	public override void OnEnter() {
 		agent.movement.Stop();
 		agent.movement.Velocity = Vector3.zero;
 
-		timer = Time.time + 4.733f;
+		agent.timer.value = 4.733f;
 
 		agent.animator?.SetTrigger("Wave");
 	}
 
 	public override void OnUpdate() {
-		if(Time.time >= timer) {
-			agent.stateMachine.SetState(nameof(AIIdleState));
-		}
+		//
 	}
 
 	public override void OnExit() {

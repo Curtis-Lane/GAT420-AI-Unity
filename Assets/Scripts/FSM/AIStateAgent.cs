@@ -57,6 +57,14 @@ public class AIStateAgent : AIAgent {
 
 		animator?.SetFloat("Speed", this.movement.Velocity.magnitude);
 
+		// Check for transitions
+		foreach(AIStateTransition transition in stateMachine.CurrentState.transitions) {
+			if(transition.ToTransition()) {
+				stateMachine.SetState(transition.nextState);
+				break;
+			}
+		}
+
 		stateMachine.Update();
 	}
 

@@ -10,6 +10,4 @@ public class ValueRef<T> {
 	public ValueRef(T value) {this.value = value;}
 
 	public static implicit operator T(ValueRef<T> r) {return r.value;}
-
-	// AAAAAAAAAAAAAAAAAAAAAAAAA
 }

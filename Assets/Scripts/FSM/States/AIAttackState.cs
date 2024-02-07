@@ -3,32 +3,26 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class AIAttackState : AIState {
-	private float timer = 0.0f;
-
 	public AIAttackState(AIStateAgent agent) : base(agent) {
-		//
+		AIStateTransition transition = new AIStateTransition(nameof(AIChaseState));
+		transition.AddCondition(new FloatCondition(agent.timer, Condition.Predicate.LESS, 0.0f));
+		transitions.Add(transition);
 	}
 
 	public override void OnEnter() {
-		Debug.Log("Attack Enter");
-
 		agent.movement.Stop();
 		agent.movement.Velocity = Vector3.zero;
 
 		agent.animator?.SetTrigger("Attack");
 
-		timer = Time.time + 2;
+		agent.timer.value = 2;
 	}
 
 	public override void OnUpdate() {
-		Debug.Log("Attack Update");
-
-		if(Time.time >= timer) {
-			agent.stateMachine.SetState(nameof(AIIdleState));
-		}
+		//
 	}
 
 	public override void OnExit() {
-		Debug.Log("Attack Exit");
+		//
 	}
 }

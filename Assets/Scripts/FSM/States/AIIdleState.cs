@@ -3,10 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class AIIdleState : AIState {
-	private float timer = 0.0f;
 
 	public AIIdleState(AIStateAgent agent) : base(agent) {
-		//
+		AIStateTransition transition = new AIStateTransition(nameof(AIPatrolState));
+		transition.AddCondition(new FloatCondition(agent.timer, Condition.Predicate.LESS, 0.0f));
+		transitions.Add(transition);
+
+		transition = new AIStateTransition(nameof(AIChaseState));
+		transition.AddCondition(new BoolCondition(agent.enemySeen));
+		transitions.Add(transition);
 	}
 
 	public override void OnEnter() {
@@ -15,15 +20,11 @@ public class AIIdleState : AIState {
 		agent.movement.Stop();
 		agent.movement.Velocity = Vector3.zero;
 
-		timer = Time.time + Random.Range(1, 2);
+		agent.timer.value = Random.Range(1, 2);
 	}
 
 	public override void OnUpdate() {
 		Debug.Log("Idle Update");
-
-		if(Time.time > timer) {
-			agent.stateMachine.SetState(nameof(AIPatrolState));
-		}
 
 		if(Random.Range(0, 2500) == 0) {
 			agent.stateMachine.SetState(nameof(AIDanceState));
@@ -38,13 +39,9 @@ public class AIIdleState : AIState {
 		GameObject[] enemies = agent.enemyPerception.GetGameObjects();
 
 		if(enemies.Length > 3) {
-			// NIGERUNDAIYO, SMOKEY
+			// NIGERUNDAIYO, SMOKEY!
 			agent.stateMachine.SetState(nameof(AIFleeState));
 			return;
-		}
-
-		if(enemies.Length > 0) {
-			agent.stateMachine.SetState(nameof(AIChaseState));
 		}
 	}
 

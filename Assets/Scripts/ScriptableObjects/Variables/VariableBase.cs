@@ -18,6 +18,4 @@ public class VariableBase<T> : ScriptableObject, ISerializationCallbackReceiver 
 	}
 
 	public static implicit operator T(VariableBase<T> r) {return r.value;}
-
-	public static implicit operator VariableBase<T>(T v) {return v;}
 }
