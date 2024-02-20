@@ -35,7 +35,6 @@ public class AIUtilityNeed : MonoBehaviour {
 		} set {
 			_input = Mathf.Clamp(value, -1, 1);
 		}
-
 	}
 
 	private void OnValidate() {
