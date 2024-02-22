@@ -10,7 +10,10 @@ public class AIUtilityAgent : AIAgent {
 	[SerializeField] Animator animator;
 
 	[SerializeField] AIUtilityNeed[] needs;
-	[SerializeField, Range(0, 1), Tooltip("minimum score to use utlity object")] float scoreThreshold = 0.2f;
+	[SerializeField, Range(0, 1), Tooltip("Minimum score to use utlity object")] float scoreThreshold = 0.2f;
+	[SerializeField, Range(0, 1), Tooltip("Threshold for the agent to feel distressed")] float distressThreshold = 0.1f;
+
+	bool hasBeendistressed = false;
 
 	[Header("UI")]
 	[SerializeField] AIUIMeter meter;
@@ -69,6 +72,15 @@ public class AIUtilityAgent : AIAgent {
 
 	private void LateUpdate() {
 		meter.value = happiness;
+
+		if(happiness < distressThreshold) {
+			if(!hasBeendistressed) {
+				animator.SetTrigger("Distress");
+				hasBeendistressed = true;
+			}
+		} else {
+			hasBeendistressed = false;
+		}
 	}
 
 	IEnumerator UseUtilityCR(AIUtilityObject utilityObject) {
